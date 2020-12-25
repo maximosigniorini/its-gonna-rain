@@ -1,6 +1,6 @@
 var wavesurfer = WaveSurfer.create({
     container: document.querySelector('#waveform1'),
-    backend: 'MediaElement',
+    backend: 'MediaElementWebAudio',
     plugins: [
         WaveSurfer.regions.create({
             regionsMinLength: 1,
@@ -42,7 +42,7 @@ var wavesurfer2 = WaveSurfer.create({
 
 wavesurfer.load('rain.mp3');
 wavesurfer2.load('rain.mp3');
-wavesurfer2.setPlaybackRate(1.002)
+wavesurfer2.setPlaybackRate(1.0002)
 
 wavesurfer.panner = wavesurfer.backend.ac.createStereoPanner();
 wavesurfer2.panner = wavesurfer2.backend.ac.createStereoPanner();
@@ -58,7 +58,7 @@ wavesurfer.on('ready', function () {
 });
 
 wavesurfer2.on('ready', function () {
-    //region2.play();
+    region2.play();
 });
 
 
