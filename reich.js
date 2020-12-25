@@ -1,65 +1,50 @@
-var wavesurfer = WaveSurfer.create({
-    container: document.querySelector('#waveform1'),
-    backend: 'MediaElementWebAudio',
-    plugins: [
-        WaveSurfer.regions.create({
-            regionsMinLength: 1,
-            regions: [
-                {
-                    start: 3,
-                    end: 4,
-                    loop: true,
-                    color: 'rgba(0, 100, 255, 0.5)'
+let wavesurfer = []
+let region = []
+
+for (let i = 0; i < 2; i++) {
+    wavesurfer[i] = WaveSurfer.create({
+        container: document.querySelector(`#waveform${i + 1}`),
+        backend: 'MediaElementWebAudio',
+        plugins: [
+            WaveSurfer.regions.create({
+                regionsMinLength: 1,
+                regions: [
+                    {
+                        start: 3,
+                        end: 4,
+                        loop: true,
+                        color: 'rgba(0, 100, 255, 0.5)'
+                    }
+                ],
+                dragSelection: {
+                    slop: 5
                 }
-            ],
-            dragSelection: {
-                slop: 5
-            }
-        })
-    ]
-});
+            })
+        ]
+    })
 
-var wavesurfer2 = WaveSurfer.create({
-    container: document.querySelector('#waveform2'),
-    backend: 'MediaElement',
-    plugins: [
-        WaveSurfer.regions.create({
-            regionsMinLength: 1,
-            regions: [
-                {
-                    start: 3,
-                    end: 4,
-                    loop: true,
-                    color: 'rgba(0, 100, 255, 0.5)'
-                }
-            ],
-            dragSelection: {
-                slop: 5
-            }
-        })
-    ]
-});
+    wavesurfer[i].load('rain.mp3');
+    wavesurfer[i].panner = wavesurfer[i].backend.ac.createStereoPanner();
 
-wavesurfer.load('rain.mp3');
-wavesurfer2.load('rain.mp3');
-wavesurfer2.setPlaybackRate(1.0002)
+    if (i === 1) {
+        wavesurfer[1].setPlaybackRate(1.01)
+        wavesurfer[1].panner.pan.value = -1
+    } else {
+        wavesurfer[0].panner.pan.value = 1
+    }
 
-wavesurfer.panner = wavesurfer.backend.ac.createStereoPanner();
-wavesurfer2.panner = wavesurfer2.backend.ac.createStereoPanner();
-wavesurfer.panner.pan.value = 1
-wavesurfer2.panner.pan.value = -1
-wavesurfer.backend.setFilter(wavesurfer.panner)
+    wavesurfer[i].backend.setFilter(wavesurfer[i].panner)
 
-let region = Object.values(wavesurfer.regions.list)[0];
-let region2 = Object.values(wavesurfer2.regions.list)[0];
+    region.push(Object.values(wavesurfer[i].regions.list)[0]);
 
-wavesurfer.on('ready', function () {
-    region.play();
-});
+    wavesurfer[i].on('ready', function () {
+        region[i].play();
+    });
+}
 
-wavesurfer2.on('ready', function () {
-    region2.play();
-});
+
+
+
 
 
 
