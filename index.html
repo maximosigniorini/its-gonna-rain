@@ -18,6 +18,8 @@
         <div id="waveform1"></div>
         <div id="waveform2"></div>
         <button>Start</button>
+        <input type="file" id="selectedFile" style="display: none;" onchange="importFile(files)" />
+        <input type="button" value="Browse..." onclick="document.getElementById('selectedFile').click();" />
     </div>
 
     <script src="https://unpkg.com/wavesurfer.js"></script>

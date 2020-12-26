@@ -60,6 +60,10 @@ btn.addEventListener('click', () => {
 })
 
 
+function importFile(files){
+    console.log(files);
+}
+
 
 
 
